@@ -1,0 +1,109 @@
+/* ==========================================================================
+   CTA BANNER (V2)
+   Dark accent banner between the light content sections and the
+   contact/footer area.
+   ========================================================================== */
+
+.cta-banner {
+  background: linear-gradient(120deg, var(--color-accent-dim), var(--color-accent));
+  padding: var(--space-8);
+}
+
+.cta-banner__inner {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.cta-banner__text {
+  color: var(--color-bg);
+}
+
+.cta-banner__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-400);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-1);
+}
+
+.cta-banner__subtext {
+  font-size: var(--fs-200);
+  opacity: 0.9;
+}
+
+.cta-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.cta-banner__quick {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-size: var(--fs-200);
+  font-weight: 500;
+}
+
+.cta-banner__quick svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.cta-banner__quick-label {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.cta-banner__quick-label small {
+  font-size: var(--fs-100);
+  opacity: 0.8;
+}
+
+.cta-banner .btn {
+  background: var(--color-bg);
+  color: var(--color-accent-dim);
+  border-color: var(--color-bg);
+}
+
+.cta-banner .btn:hover,
+.cta-banner .btn:focus-visible {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+@media (max-width: 1023px) {
+  .cta-banner__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .cta-banner {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .cta-banner__actions {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: var(--space-4);
+  }
+
+  .cta-banner .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

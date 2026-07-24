@@ -1,0 +1,96 @@
+/* ==========================================================================
+   FLOATING CONTACT CTA
+   Sitewide, fixed bottom-right. All 3 actions are visible and one tap/
+   click away — per directive, users shouldn't need to expand a menu
+   first to reach something this important.
+   ========================================================================== */
+
+.float-cta {
+  position: fixed;
+  right: var(--space-6);
+  bottom: var(--space-6);
+  z-index: 900; /* below header/mobile-nav/loader, above page content */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.float-cta__action {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 48px;
+  padding-inline: var(--space-4);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: var(--fs-200);
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform var(--dur-fast) var(--ease-out-expo),
+    border-color var(--dur-fast) var(--ease-out-expo),
+    background var(--dur-fast) var(--ease-out-expo);
+}
+
+.float-cta__action:hover,
+.float-cta__action:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+}
+
+.float-cta__action:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.float-cta__action--primary {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+.float-cta__action--primary:hover,
+.float-cta__action--primary:focus-visible {
+  background: var(--color-accent-dim);
+}
+
+.float-cta__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.float-cta__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Below 640px: collapse to icon-only circular buttons so the stack
+   doesn't eat a large chunk of a small viewport. Labels move to
+   native title/aria-label instead of visible text. */
+@media (max-width: 639px) {
+  .float-cta {
+    right: var(--space-4);
+    bottom: var(--space-4);
+    gap: var(--space-2);
+  }
+
+  .float-cta__action {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .float-cta__label {
+    display: none;
+  }
+}

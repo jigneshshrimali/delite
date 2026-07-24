@@ -1,0 +1,102 @@
+/* ==========================================================================
+   INDUSTRIES PAGE
+   ========================================================================== */
+
+.industries-list {
+  padding: 0 var(--space-8) var(--space-16);
+}
+
+.industries-list__grid {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.industry-detail {
+  scroll-margin-top: 100px;
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg-elevated);
+  transition: border-color var(--dur-base) var(--ease-out-expo),
+    transform var(--dur-base) var(--ease-out-expo);
+}
+
+.industry-detail:hover,
+.industry-detail:target {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+}
+
+.industry-detail__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
+  margin-bottom: var(--space-4);
+}
+
+.industry-detail__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.industry-detail__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-400);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+.industry-detail__copy {
+  font-size: var(--fs-200);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.industry-detail__machines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.industry-detail__machine-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-accent);
+  background: rgba(34, 199, 219, 0.1);
+  border: 1px solid rgba(34, 199, 219, 0.25);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.industry-detail__machine-tag:hover,
+.industry-detail__machine-tag:focus-visible {
+  border-color: var(--color-accent);
+}
+
+@media (max-width: 1023px) {
+  .industries-list__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .industries-list {
+    padding-inline: var(--space-4);
+  }
+
+  .industries-list__grid {
+    grid-template-columns: 1fr;
+  }
+}

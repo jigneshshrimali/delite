@@ -1,0 +1,107 @@
+/* ==========================================================================
+   WHY CHOOSE DELITE (V2)
+   Left: kicker/heading/subtext/CTA. Right: 2x2 feature grid.
+   ========================================================================== */
+
+.why-choose {
+  padding: var(--space-16) var(--space-8);
+}
+
+.why-choose__inner {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.why-choose__kicker {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-3);
+}
+
+.why-choose__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-500);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.why-choose__lead {
+  font-size: var(--fs-300);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 40ch;
+  margin-bottom: var(--space-6);
+}
+
+.why-choose__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.why-feature {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.why-feature__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+
+.why-feature:hover .why-feature__icon {
+  transform: translateY(-3px) scale(1.05);
+}
+
+.why-feature__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.why-feature__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-300);
+  color: var(--color-text);
+}
+
+.why-feature__copy {
+  font-size: var(--fs-200);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 1023px) {
+  .why-choose__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .why-choose {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .why-choose__grid {
+    grid-template-columns: 1fr;
+  }
+}

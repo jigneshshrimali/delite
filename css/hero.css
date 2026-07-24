@@ -1,0 +1,538 @@
+/* ==========================================================================
+   HERO
+   Full-bleed section beneath the fixed/transparent header. The signature
+   element is the annotated product visual — spec callouts connected to
+   points on the machine, matching the approved mockup.
+
+   Callout positions are defined as percentages of the visual container
+   (see index.html data-x/data-y) so the connector lines stay correct at
+   any container size — anchoring lines to literal pixel coordinates
+   would break the moment the container width changes on resize.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--space-24) + 64px) var(--space-8) var(--space-16);
+  background: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(34, 199, 219, 0.08) 0%,
+      transparent 60%
+    ),
+    var(--color-bg);
+  overflow: hidden;
+}
+
+/* Faint technical grid backdrop — reinforces the "engineering" register
+   without competing with the product visual. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.15;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 0%, transparent 75%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  max-width: 1400px;
+  margin-inline: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+/* ---- Left column: headline / subtext / CTAs / stats ---- */
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.hero__content-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.hero__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, var(--fs-700));
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  min-height: 2.4em; /* reserves space across slides of differing line count, avoids layout jump */
+}
+
+.hero__headline-accent {
+  color: var(--color-accent);
+}
+
+.hero__subtext {
+  font-size: var(--fs-300);
+  color: var(--color-text-muted);
+  max-width: 46ch;
+  line-height: 1.6;
+}
+
+.hero__cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--secondary:hover,
+.btn--secondary:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Content fades as a block on slide change; visible by default (see
+   hero.js) so JS failure never hides real headline/CTA content. */
+.hero__content-inner.is-animating {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ---- Stats row — placeholder figures, explicitly flagged (see
+   index.html comment) pending real client-confirmed numbers. ---- */
+.hero__stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.hero__stats-row--five {
+  grid-template-columns: repeat(5, auto);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.hero__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-500);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.hero__stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ---- Right column: product visual ---- */
+.hero__visual-col {
+  position: relative;
+}
+
+.hero__slider {
+  position: relative;
+  width: min(100%, 900px);
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+/* Holds all slides (+ the 2 clones used for seamless looping) side by
+   side; JS translates this to create real physical motion, rather
+   than the previous crossfade-in-place approach. */
+.hero__track {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+
+.hero__track.is-jumping {
+  transition: none !important; /* the invisible snap-back at loop boundaries */
+}
+
+.hero__slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 811 / 582;
+}
+
+.hero__product {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  will-change: transform;
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.5));
+}
+
+/* Connector lines — SVG overlay, percentage viewBox so it scales with
+   the container. Hidden below 768px in favour of a plain stat grid. */
+.hero__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hero__lines path {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.hero__lines circle {
+  fill: var(--color-accent);
+}
+
+/*
+ * Callouts default to fully visible — this is a static, working page
+ * even with zero JavaScript. JS adds `.is-animating` immediately
+ * before it runs a GSAP reveal (see hero.js), which is the ONLY thing
+ * that sets the 0/offset starting point. If JS is blocked, slow, or
+ * throws, content simply never animates — it is never left invisible.
+ */
+.hero__callout {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.hero__callout.is-animating {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.hero__lines.is-animating path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+}
+
+.hero__lines.is-animating circle {
+  opacity: 0;
+}
+
+.hero__callout-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.hero__callout-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.hero__callout-text {
+  white-space: nowrap;
+}
+
+.hero__callout-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.hero__callout-value {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-300);
+  font-weight: 500;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero__callout-unit {
+  font-size: var(--fs-100);
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* Anchor positions — quadrant-based so the same 4 slots work for any
+   slide's specs, not just the ball mill's original metric names. */
+.hero__callout--tl {
+  top: 14%;
+  left: -4%;
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+.hero__callout--tr {
+  top: 6%;
+  right: -4%;
+}
+
+.hero__callout--br {
+  top: 46%;
+  right: -8%;
+}
+
+.hero__callout--bl {
+  top: 58%;
+  left: -8%;
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+/* Mobile stat grid — replaces pointing-line callouts below 768px,
+   where anchored lines to a small product image stop being legible. */
+.hero__stats-mobile {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__content {
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero__subtext {
+    max-width: 60ch;
+  }
+
+  .hero__cta-group {
+    justify-content: center;
+  }
+
+  .hero__stats-row {
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding-top: calc(var(--space-16) + 56px);
+  }
+
+  .hero__lines,
+  .hero__callout {
+    display: none;
+  }
+
+  .hero__headline {
+    min-height: 0; /* the fixed reservation is only needed for the
+                      side-by-side desktop layout, where a height jump
+                      would push the image column around */
+  }
+
+  .hero__cta-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero__cta-group .btn {
+    width: 100%;
+  }
+
+  .hero__stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .hero__stats-mobile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+
+  .hero__stat-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero__callout--tl,
+  .hero__callout--bl {
+    left: -2%;
+  }
+  .hero__callout--tr,
+  .hero__callout--br {
+    right: -2%;
+  }
+}
+
+/* ---- Slider controls ---- */
+.hero__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-12);
+}
+
+.hero__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out-expo),
+    color var(--dur-fast) var(--ease-out-expo);
+}
+
+.hero__arrow:hover,
+.hero__arrow:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.hero__arrow:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.hero__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.hero__dots {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hero__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    border-color var(--dur-fast) var(--ease-out-expo);
+}
+
+.hero__dot:hover,
+.hero__dot:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.hero__dot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.hero__dot[aria-current="true"] {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.hero__play-pause {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-left: var(--space-2);
+}
+
+.hero__play-pause:hover,
+.hero__play-pause:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.hero__play-pause:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.hero__play-pause svg {
+  width: 12px;
+  height: 12px;
+}
+
+.hero__play-pause .icon-pause {
+  display: none;
+}
+
+.hero__play-pause[aria-pressed="true"] .icon-play {
+  display: none;
+}
+
+.hero__play-pause[aria-pressed="true"] .icon-pause {
+  display: block;
+}
+
+.hero__product-name {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: var(--space-4);
+}
+
+.hero__product-name span {
+  color: var(--color-accent);
+}

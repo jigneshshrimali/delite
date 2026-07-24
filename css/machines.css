@@ -1,0 +1,255 @@
+/* ==========================================================================
+   MACHINES CAROUSEL (V2)
+   Horizontal scroll-snap carousel, manually controlled (arrows + native
+   swipe/drag) — NOT autoplay. Autoplay was an explicit requirement for
+   the hero specifically; a product-browsing carousel like this is
+   normally user-driven, so it isn't forced to auto-advance.
+   ========================================================================== */
+
+.machines {
+  padding: var(--space-16) var(--space-8);
+}
+
+.machines__header {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.machines__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.machines__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-500);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.machines__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.machines__view-all {
+  font-size: var(--fs-200);
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.machines__view-all svg {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+
+.machines__view-all:hover svg,
+.machines__view-all:focus-visible svg {
+  transform: translateX(3px);
+}
+
+.machines__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out-expo),
+    color var(--dur-fast) var(--ease-out-expo);
+}
+
+.machines__arrow:hover,
+.machines__arrow:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.machines__arrow:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.machines__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.machines__arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.machines__track {
+  max-width: 1400px;
+  margin-inline: auto;
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  /* Scrollbar hidden — still scrollable via drag/touch/JS, just not
+     visually shown as a page-level scrollbar, which looked broken. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.machines__track::-webkit-scrollbar {
+  display: none;
+}
+
+.machine-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(260px, 78vw);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg-elevated);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--dur-base) var(--ease-out-expo),
+    box-shadow var(--dur-base) var(--ease-out-expo),
+    border-color var(--dur-base) var(--ease-out-expo);
+}
+
+.machine-card:hover,
+.machine-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(18, 24, 31, 0.12);
+  border-color: var(--color-accent);
+}
+
+.machine-card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.machine-card__image-wrap {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.machine-card__image-wrap img,
+.machine-card__placeholder {
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.machine-card:hover .machine-card__image-wrap img,
+.machine-card:hover .machine-card__placeholder,
+.machine-card:focus-visible .machine-card__image-wrap img {
+  transform: scale(1.08);
+}
+
+.machine-card__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Placeholder treatment for the 2 machines with no real product photo
+   yet (Vibro Screen, Ribbon Blender) — deliberately illustrative, not
+   pretending to be a real product photo. */
+.machine-card__placeholder {
+  width: 70%;
+  color: var(--color-border);
+}
+
+.machine-card__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-grow: 1;
+}
+
+.machine-card__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-300);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.machine-card__tagline {
+  font-size: var(--fs-200);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.machine-card__pending {
+  display: inline-block;
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.machine-card__arrow {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  margin-top: var(--space-3);
+  transition: background var(--dur-fast) var(--ease-out-expo),
+    border-color var(--dur-fast) var(--ease-out-expo),
+    color var(--dur-fast) var(--ease-out-expo);
+}
+
+.machine-card:hover .machine-card__arrow,
+.machine-card:focus-visible .machine-card__arrow {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.machine-card__arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 640px) {
+  .machines {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .machines__controls .machines__arrow {
+    display: none;
+  }
+}
