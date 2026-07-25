@@ -56,6 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
+  min-width: 0;
 }
 
 .hero__content-inner {
@@ -159,6 +160,7 @@
 /* ---- Right column: product visual ---- */
 .hero__visual-col {
   position: relative;
+  min-width: 0;
 }
 
 .hero__slider {
@@ -166,6 +168,7 @@
   width: min(100%, 900px);
   margin-inline: auto;
   overflow: hidden;
+  min-width: 0;
 }
 
 /* Holds all slides (+ the 2 clones used for seamless looping) side by
@@ -292,29 +295,35 @@
 }
 
 /* Anchor positions — quadrant-based so the same 4 slots work for any
-   slide's specs, not just the ball mill's original metric names. */
+   slide's specs, not just the ball mill's original metric names.
+   Kept WITHIN the slide's own bounds (no negative offsets) — negative
+   left/right used to overflow into the surrounding margin, but
+   .hero__slider now has overflow:hidden (required for the physical
+   track carousel to hide off-screen clone slides), which clips
+   anything extending past the slide edge. This was clipping/cutting
+   off callouts, most visibly on tablet where there's less margin. */
 .hero__callout--tl {
   top: 14%;
-  left: -4%;
-  text-align: right;
-  flex-direction: row-reverse;
+  left: 2%;
+  text-align: left;
+  flex-direction: row;
 }
 
 .hero__callout--tr {
   top: 6%;
-  right: -4%;
+  right: 2%;
 }
 
 .hero__callout--br {
   top: 46%;
-  right: -8%;
+  right: 4%;
 }
 
 .hero__callout--bl {
   top: 58%;
-  left: -8%;
-  text-align: right;
-  flex-direction: row-reverse;
+  left: 4%;
+  text-align: left;
+  flex-direction: row;
 }
 
 /* Mobile stat grid — replaces pointing-line callouts below 768px,
@@ -345,6 +354,13 @@
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
     text-align: center;
+  }
+
+  /* The V2 5-stat row would otherwise inherit the 4-column rule above
+     (equal specificity, later in source order) and orphan the 5th
+     item alone in a new row — explicit 5-column override instead. */
+  .hero__stats-row--five {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -379,6 +395,10 @@
     gap: var(--space-4);
   }
 
+  .hero__stats-row--five {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .hero__stats-mobile {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -394,17 +414,6 @@
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border);
     border-radius: 8px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .hero__callout--tl,
-  .hero__callout--bl {
-    left: -2%;
-  }
-  .hero__callout--tr,
-  .hero__callout--br {
-    right: -2%;
   }
 }
 

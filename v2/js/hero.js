@@ -321,17 +321,29 @@
   startAutoplay();
 
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => drawLinesForSlide(realSlides[realIndexOf(trackIndex)]));
+    document.fonts.ready.then(() => {
+      positionTrack(false);
+      drawLinesForSlide(realSlides[realIndexOf(trackIndex)]);
+    });
   }
 
+  // ResizeObserver instead of a window-resize listener: fires
+  // immediately on observe() with the real current size, and again
+  // on ANY actual layout change to the slider — font swap, image
+  // decode, orientation change, mobile browser toolbar show/hide —
+  // not just explicit window resize events. A plain resize listener
+  // was missing some of these on mobile, leaving the track positioned
+  // against a stale width measurement (the reported "not showing
+  // properly" bug).
   let resizeTimer;
-  window.addEventListener('resize', () => {
+  const resizeObserver = new ResizeObserver(() => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       positionTrack(false);
       drawLinesForSlide(realSlides[realIndexOf(trackIndex)]);
-    }, 150);
+    }, 100);
   });
+  resizeObserver.observe(slider);
 
   if (!prefersReducedMotion && window.matchMedia('(hover: hover)').matches) {
     let rafId = null;
