@@ -24,6 +24,14 @@
   margin-bottom: var(--space-4);
 }
 
+.contact-section__heading {
+  font-family: var(--font-display);
+  font-size: var(--fs-500);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-6);
+}
+
 .contact-section__info {
   display: flex;
   flex-direction: column;
